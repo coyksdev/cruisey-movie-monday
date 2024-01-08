@@ -1,9 +1,8 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -12,11 +11,13 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: 'index',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -43,14 +44,22 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+    <QueryClientProvider client={queryClient}>
+      <Stack
+        screenOptions={{
+          contentStyle: {
+            backgroundColor: 'white',
+          },
+        }}
+      >
+        <Stack.Screen
+          name="index"
+          options={{
+            headerTitle: 'Cruisey Movies',
+          }}
+        />
       </Stack>
-    </ThemeProvider>
+    </QueryClientProvider>
   );
 }

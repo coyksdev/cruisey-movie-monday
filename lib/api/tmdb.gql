@@ -1,0 +1,26 @@
+query GetTomCruiseMovies {
+  searchPerson(query: "tom cruise", page: 1) {
+    results {
+      name
+      cast {
+        id
+        title
+        release_date
+        overview
+        poster_path
+      }
+    }
+  }
+}
+
+query SearchMovies($query: String!) {
+	searchMovies(query: $query page: 1) {
+    results {
+      id
+      title
+      release_date
+      overview
+      poster_path
+    }
+  }
+}

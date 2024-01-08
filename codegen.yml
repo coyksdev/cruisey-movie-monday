@@ -1,0 +1,12 @@
+overwrite: true
+generates:
+  lib/generated/tmdb.ts:
+    schema:
+      - 'https://tmdb-one-blue.vercel.app/':
+          method: GET
+    documents: ./lib/api/tmdb.gql
+    plugins:
+      - 'typescript'
+      - 'typescript-resolvers'
+      - 'typescript-operations'
+      - 'typescript-graphql-request'
